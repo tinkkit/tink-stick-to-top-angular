@@ -1,11 +1,11 @@
 'use strict';
 (function(module) {
   try {
-    module = angular.module('tink.skeleton');
+    module = angular.module('tink.sticktotop');
   } catch (e) {
-    module = angular.module('tink.skeleton', []);
+    module = angular.module('tink.sticktotop', []);
   }
-  module.directive('tinkSkeleton', [function () {
+  module.directive('tinkStickToTop', [function () {
     return {
       restrict: 'EA',
       scope: {
