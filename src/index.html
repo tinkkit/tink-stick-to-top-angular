@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="tink.skeleton">
+<html ng-app="tink.sticktotop" class="has-nav-left">
 <head>
   <meta charset="utf-8">
   <title>Tink module</title>
@@ -7,15 +7,272 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="initial-scale=1.0,user-scalable=no,minimum-scale=1.0">
   <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/tink-core/assets/tink/tink.css" />
+  <link rel="stylesheet" href="bower_components/qunit/qunit/qunit.css" />
+  <link rel="stylesheet" href="bower_components/filament-sticky/fixedsticky.css" />
   <!-- endbower -->
 </head>
-<body>
-
-<tink-skeleton data-text="Skeleton is working fine!"></tink-skeleton>
+<body ng-controller="ctrl">
 
 <!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/filament-fixed/fixedfixed.js"></script>
+<script src="bower_components/qunit/qunit/qunit.js"></script>
+<script src="bower_components/filament-sticky/fixedsticky.js"></script>
 <!-- endbower -->
 
-<script src="scripts/directives/skeleton.js"></script>
+<script src="bower_components/api/dist/api.js"></script>
+<script src="bower_components/angular-api/dist/angularApi.js"></script>
+<script src="bower_components/tink-navigation-angular/dist/tink-navigation-angular.js"></script>
+
+<script>
+var module;
+  try {
+    module = angular.module('tink.sticktotop');
+  } catch (e) {
+    module = angular.module('tink.sticktotop', ['tink.navigation']);
+  }
+  module.controller('ctrl',function($scope){
+
+  });
+</script>
+<!-- ---------------TOP NAVIGATION------------ -->
+<nav data-tink-top-nav="" class="nav-top">
+  <ul class="nav-top-branding">
+    <li class="logo">
+      <a href="#" title=""><span>Your Project</span></a>
+    </li>
+    <li class="toggle" data-tink-sidenav-collapse="asideNavLeft">
+      <a href="#" title="Open menu"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
+    </li>
+    <li class="app">
+      <h1><a href="#">My App</a></h1>
+    </li>
+  </ul>
+  <section class="nav-top-section">
+    <ul class="nav-top-section-left">
+      <li>
+        <a href="#">Menu L1</a>
+      </li>
+      <li>
+        <a href="#">Menu L2</a>
+      </li>
+    </ul>
+    <div class="nav-top-section-center">
+      <input type="search" class="input-search" placeholder="Zoeken">
+    </div>
+    <ul class="nav-top-section-right">
+      <li class="active">
+        <a href="#">Menu R1</a>
+      </li>
+      <li>
+        <a href="#">Menu R2</a>
+      </li>
+    </ul>
+  </section>
+</nav>
+
+<!-- ---------------SIDE NAVIGATION------------ -->
+<div data-tink-nav-aside="" data-auto-select="true" data-toggle-id="asideNavLeft" class="nav-aside nav-left">
+  <aside>
+    <div class="nav-aside-section">
+      <p class="nav-aside-title">Section title</p>
+      <ul>
+        <li>
+          <a href="#">
+            <span>Menu item</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span>Menu item with badge</span>
+            <span class="badge">2</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span>Menu item with submenu items</span>
+          </a>
+          <ul>
+            <li>
+              <a href="#">
+                <span>Submenu item</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span>Submenu item with badge</span>
+                <span class="badge">8</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-fw fa-cogs"></i>
+            <span>Menu item with icon</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+<style>
+.fixed{
+  width:100%;
+  background:red;
+  -webkit-transform: translateZ(0);
+}
+
+.fixedsticky { top: 60; }
+
+</style>
+<script src="http://192.168.125.187:8080/target/target-script-min.js#anonymous"></script>
+
+
+<!-- CONTENT -->
+<div class="main">
+  +1ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +2ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +3ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +4ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +5ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +6ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +7ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +8ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +9ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +10ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +11ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +12ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  +13ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  <div dir-fixed  id="my-element" class="fixed fixedsticky">
+     <button>go to</button>
+  </div>
+  <script>
+ // $( '#my-element' ).fixedsticky();
+  </script>
+
+  1ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  2ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  3ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  4ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  5ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  6ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  7ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  8ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  9ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  10ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  11ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  12ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  13ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  14ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  15ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  16ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  17ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  18ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  19ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  20ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  21ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  22ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+
+  <div dir-fixed  id="my-element2" style="background:yellow;" class="fixed fixedsticky">
+     2testldsls<br/>
+     1condsndd<br/>
+     2condsndd<br/>
+     3condsndd<br/>
+     4condsndd<br/>
+     condsndd<br/>
+     condsndd<br/>
+  </div>
+<script>
+ // $( '#my-element2' ).fixedsticky();
+  </script>
+   10ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  11ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  12ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  13ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  14ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  15ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  16ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  17ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  18ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  19ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  20ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  21ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  22ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+</div>
+
+
+
+<script src="scripts/directives/test.js"></script>
+<script src="scripts/services/sticky.js"></script>
 </body>
 </html>
