@@ -72,9 +72,10 @@
 
   function setSticky(obj,margin){
     if((currentSticky.dummy && $(currentSticky.original.elem).get(0) !== $(obj.elem).get(0)) || !currentSticky.dummy){
+      removeSticky();
       var element = $(obj.elem);
       currentSticky.dummy = $( '<div>' ).height(element.outerHeight(true));
-      element.after(currentSticky.dummy);
+     // element.after(currentSticky.dummy);
       element.addClass('sticky');
       element.css('top',margin+'px');
       currentSticky.original = obj;

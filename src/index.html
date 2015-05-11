@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="bower_components/tink-core/dist/tink.css" />
   <!-- endbower -->
 </head>
-<body ng-controller="ctrl">
+<body ng-controller="ctrl" class="touchfix">
 
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -123,6 +123,16 @@ var module;
     position: fixed;
     z-index: 1;
     width:100%;
+
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+  }
+
+
+  .touchfix{
+    -webkit-overflow-scrolling: touch
   }
 
 </style>
