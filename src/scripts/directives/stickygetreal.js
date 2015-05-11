@@ -9,7 +9,11 @@
    return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      fixedCont.register(element);
+      var level = 1;
+      if(attrs.tinkLevel){
+        level = parseInt(attrs.tinkLevel);
+      }
+      fixedCont.register(element,level);
     }
   };
 
@@ -46,7 +50,7 @@
 
 
   var components=[];
-  var currentSticky={dummy:null,original:null};
+  var currentSticky=[];
 
   function update(){
     var scrollTop = getScrollTop();
@@ -63,38 +67,63 @@
     components.forEach(function(value,key){
       var next = key+1 < lengthC;
       var element = $(value.elem);
-      if(next && scrollTop >= value.top && scrollTop < value.stop){
-
+      //Next level present
+      if(next){
         var nextElement = $(components[key+1].elem);
-        if((nextElement.position().top - scrollTop) <= element.outerHeight(true)+padding){console.log('ok')
-          var verschil = (nextElement.position().top-padding-scrollTop);
-          // console.log(element.outerHeight(true)); 40
-          var secondTop = (padding+verschil); // top van rode blok
-          var firstTop = (padding+verschil-element.outerHeight(true)); // top van gele blok
-          // console.log(verschil+element.outerHeight(true));
-          setSticky(value,firstTop); 
-          element.css('top',(firstTop)+'px');
-        }else{
-          setSticky(value,padding);
-          element.css('top',padding+'px');  
+        //Next obj
+        var nextObj = components[key+1];
+        //IF the same level
+        if(nextObj.level === value.level){
+          //If next and value is between this and next
+          if(scrollTop >= value.top && scrollTop < value.stop){
+            //if next is between top and this height
+            if((nextElement.position().top - scrollTop) <= element.outerHeight(true)+padding){
+              var verschil = (nextElement.position().top-padding-scrollTop);
+              var secondTop = (padding+verschil); // top van rode blok
+              var firstTop = (padding+verschil-element.outerHeight(true)); // top van gele blok
+              setSticky(value,firstTop); 
+              element.css('top',(firstTop)+'px');
+            }else{
+              setSticky(value,padding);
+              element.css('top',padding+'px');  
+            }
+          }
+        }else if(nextObj.level>value.level){
+
+
         }
-        //
+
       }else if(!next && scrollTop >= value.top){
-        setSticky(value,padding);  
-      }
+            setSticky(value,padding);  
+          }
+      
     });
 
   }
 
+  function insideCurrent(obj){
+    var newObj = currentSticky.filter(function(value){
+      if($(value.original).get(0) === $(obj).get(0)){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    if(newObj.length > 0){
+      return true;
+    }
+    return false;
+  }
   function setSticky(obj,margin){
-    if((currentSticky.dummy && $(currentSticky.original.elem).get(0) !== $(obj.elem).get(0)) || !currentSticky.dummy){
-      removeSticky();
+    if((currentSticky.length > 0 && insideCurrent($(obj.elem).get(0)) === false) || currentSticky.length === 0){
+      var newObj = {};
       var element = $(obj.elem);
-      currentSticky.dummy = $( '<div>' ).height(element.outerHeight(true));
+      newObj.dummy = $( '<div>' ).height(element.outerHeight(true));
       element.after(currentSticky.dummy);
       element.addClass('sticky');
       element.css('top',margin+'px');
-      currentSticky.original = obj;
+      newObj.original = obj;
+      currentSticky.push(newObj);
     }    
   }
 
@@ -119,9 +148,9 @@
   }
 
   var ctrl = {};
-  ctrl.register= function(element){
+  ctrl.register= function(element,level){
     var nakedEl = $(element).get(0);
-      components.push({elem: $(element),top:$(element).position().top});
+      components.push({elem: $(element),top:$(element).position().top,level:level});
       calculateValues();
       components = components.sort(function(a, b){
           a = parseInt(a.top);
