@@ -7,9 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="initial-scale=1.0,user-scalable=no,minimum-scale=1.0">
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/tink-core/assets/tink/tink.css" />
-  <link rel="stylesheet" href="bower_components/qunit/qunit/qunit.css" />
-  <link rel="stylesheet" href="bower_components/filament-sticky/fixedsticky.css" />
+  <link rel="stylesheet" href="bower_components/tink-core/dist/tink.css" />
   <!-- endbower -->
 </head>
 <body ng-controller="ctrl">
@@ -23,13 +21,9 @@
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angular-touch/angular-touch.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/filament-fixed/fixedfixed.js"></script>
-<script src="bower_components/qunit/qunit/qunit.js"></script>
-<script src="bower_components/filament-sticky/fixedsticky.js"></script>
+<script src="bower_components/tink-api-javascript/dist/tink-api-javascript.js"></script>
+<script src="bower_components/tink-api-angular/dist/tink-api-angular.js"></script>
 <!-- endbower -->
-
-<script src="bower_components/api/dist/api.js"></script>
-<script src="bower_components/angular-api/dist/angularApi.js"></script>
 <script src="bower_components/tink-navigation-angular/dist/tink-navigation-angular.js"></script>
 
 <script>
@@ -125,17 +119,13 @@ var module;
   </aside>
 </div>
 <style>
-.fixed{
-  width:100%;
-  background:red;
-  -webkit-transform: translateZ(0);
-}
-
-.fixedsticky { top: 60; }
+  .sticky{
+    position: fixed;
+    z-index: 1;
+    width:100%;
+  }
 
 </style>
-<script src="http://192.168.125.187:8080/target/target-script-min.js#anonymous"></script>
-
 
 <!-- CONTENT -->
 <div class="main">
@@ -152,7 +142,7 @@ var module;
   +11ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   +12ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   +13ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
-  <div dir-fixed  id="my-element" class="fixed fixedsticky">
+  <div style='background:yellow;' data-tink-sticky>
      <button>go to</button>
   </div>
   <script>
@@ -213,7 +203,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
 
-  <div dir-fixed  id="my-element2" style="background:yellow;" class="fixed fixedsticky">
+  <div style='background:red;' data-tink-sticky>
      2testldsls<br/>
      1condsndd<br/>
      2condsndd<br/>
@@ -272,7 +262,6 @@ var module;
 
 
 
-<script src="scripts/directives/test.js"></script>
-<script src="scripts/services/sticky.js"></script>
+<script src="scripts/directives/stickygetreal.js"></script>
 </body>
 </html>
