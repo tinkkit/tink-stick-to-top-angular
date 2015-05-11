@@ -49,7 +49,7 @@
   var currentSticky={dummy:null,original:null};
 
   function update(){
-    var scrollTop = getScrollTop();console.log($('#valueTop'))
+    var scrollTop = getScrollTop();
     $('#valueTop').html(scrollTop);
     $('#elementPos').html(components[0].top);
     var lengthC = components.length;
@@ -64,7 +64,21 @@
       var next = key+1 < lengthC;
       var element = $(value.elem);
       if(next && scrollTop >= value.top && scrollTop < value.stop){
-        setSticky(value,padding);    
+
+        var nextElement = $(components[key+1].elem);
+        if((nextElement.position().top - scrollTop) <= element.outerHeight(true)+padding){console.log('ok')
+          var verschil = (nextElement.position().top-padding-scrollTop);
+          // console.log(element.outerHeight(true)); 40
+          var secondTop = (padding+verschil); // top van rode blok
+          var firstTop = (padding+verschil-element.outerHeight(true)); // top van gele blok
+          // console.log(verschil+element.outerHeight(true));
+          setSticky(value,firstTop); 
+          element.css('top',(firstTop)+'px');
+        }else{
+          setSticky(value,padding);
+          element.css('top',padding+'px');  
+        }
+        //
       }else if(!next && scrollTop >= value.top){
         setSticky(value,padding);  
       }
