@@ -1,0 +1,14 @@
+@import "../../bower_components/tink-core/dist/tink/variables";
+@import "../../bower_components/tink-core/dist/tink/functions";
+@import "../../bower_components/tink-core/dist/tink/mixins";
+
+.infoboard {
+  background-color: rgba(#000, .8);
+  bottom: 0;
+  color: #fff;
+  padding-left: rem($nav-aside-width);
+  position: fixed;
+  right: 0;
+  width: 100%;
+  z-index: layer('above-pseudo');
+}
