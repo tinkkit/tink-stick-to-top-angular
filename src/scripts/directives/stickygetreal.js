@@ -49,7 +49,9 @@
   var currentSticky={dummy:null,original:null};
 
   function update(){
-    var scrollTop = getScrollTop();
+    var scrollTop = getScrollTop();console.log($('#valueTop'))
+    $('#valueTop').html(scrollTop);
+    $('#elementPos').html(components[0].top);
     var lengthC = components.length;
 
     if(currentSticky.dummy){
@@ -75,7 +77,7 @@
       removeSticky();
       var element = $(obj.elem);
       currentSticky.dummy = $( '<div>' ).height(element.outerHeight(true));
-     // element.after(currentSticky.dummy);
+      element.after(currentSticky.dummy);
       element.addClass('sticky');
       element.css('top',margin+'px');
       currentSticky.original = obj;
