@@ -37,6 +37,7 @@
     });
 
     update();
+    calculateValues();
   },250);
 
   function getScrollTop() {
@@ -92,7 +93,7 @@
   }
 
   function update(){
-     var scrollTop = getScrollTop();
+     var scrollTop = getScrollTop();console.log(scrollTop)
      var lengthC = components.length;
     components.forEach(function(value,key){
       if(value.extra){
@@ -100,6 +101,7 @@
       }
        //We have a next element.
       var next = key+1 < lengthC;
+      var prev = key-1 > -1;
       var element = $(value.elem);
 
       //If not in viewport, next element.
@@ -111,47 +113,53 @@
      
 
       //If we have a next element and the next element is on the SAME level.
-      if(next){
+      //if(next){
 
         /*
           Hier moeten we enkel de hoogte van het huidige element weten als we het sticky zetten en die hoogte in het dummy element steken.
           Die extra hoogte is ook belangrijk in combinatie met de positie van het volgende element (van hetzelfde level).
         */
-        if(components[key+1].level !== value.level){
+        if(prev && components[key-1].level === value.level){
+          scrollTop+=$(components[key-1].elem).outerHeight(true)-components[key-1].extra;
+       //console.log('prev',$(value.elem).get(0).style.background)
+        }
 
+        if(next && components[key+1].level === value.level){
+          //console.log('next',$(value.elem).get(0).style.background)
+          //value.stop -=6;
         }
         /*
           Hier moeten we ook de hoogte weten van de elementen van een hoger level die reeds sticky staan (kunnen meerdere levels zijn).
           Voor de rest hebben die dezelfde behaviour als het eerste level
         */
        // console.log(scrollTop,value.top,value.stop,value.elem,scrollTop >= value.top && scrollTop < value.stop)
+       //console.log('top:'+value.top,'extra:'+value.extra,'stop:'+value.stop,'scroll:'+scrollTop,$(value.elem).get(0).style.background,scrollTop >= value.top && scrollTop < value.stop)
         if(scrollTop >= value.top && scrollTop < value.stop){
 
-          addSticky(value);
+          addSticky(value,(prev && components[key-1].level === value.level)|| (next && components[key+1].level > value.level));
         }else{
           removeSticky(value);
         }
 
       //Set the element sticky if it reached the top
-      } else {
+     // } else {
         //last element
-      }
+     // }
     });
   }
 
-  function addSticky(obj){
+  function addSticky(obj,bool){
     if(obj && obj.elem){
       var elem = $(obj.elem);
       if(isSticky(obj)===-1){
         var topHeight = padding;
-        if(stickyList.length !== 0){
-          for (var i = stickyList.length; i--;) {
-           var objNext = stickyList[i];
-           topHeight += $(objNext.elem).outerHeight(true);
-          };
+        if(obj.extra){
+          topHeight+= obj.extra;
         }
         obj.dummy = createDummy(elem);
-        elem.after(obj.dummy);
+        if(!bool){
+          elem.after(obj.dummy);
+        }        
         makeSticky(elem,topHeight);
         stickyList.push(obj);
       }
@@ -213,21 +221,23 @@
         for(var i=key+1;i<lengthC;i++){
           var nextElement = $(components[i].elem);
           if(components[i].level === value.level){
-            value.stop = components[i].top;
+            value.stop = components[i].top-element.outerHeight(true);
             break;
           }else if(components[i].level < value.level && value.stop === undefined){
-            value.stop = components[i].top;
-            for(var j=key;j>=0;j--){
+            value.stop = components[i].top;                        
+          }
+        }
+        //console.log($window.innerHeight,$window,($(document).height() - $(window).height()))
+        if(value.stop === undefined){
+          value.stop = $(document).height() - $(window).height();
+        }   
+      }
+      for(var j=key;j>=0;j--){
               if(components[j].level < value.level){
                 value.extra = $(components[j].elem).outerHeight(true);
                 break;
               }
             }
-            
-          }
-        }
-        
-      }
     });
   }
 
@@ -247,7 +257,6 @@
   ctrl.register= function(element,level){
     var nakedEl = $(element).get(0);
       components.push({elem: $(element),top:$(element).position().top,level:level});
-      calculateValues();
       components = components.sort(function(a, b){
           a = parseInt(a.top);
           b = parseInt(b.top);
