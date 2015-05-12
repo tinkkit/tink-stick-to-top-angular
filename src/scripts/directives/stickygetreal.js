@@ -9,7 +9,11 @@
    return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      fixedCont.register(element);
+      var level = 1;
+      if(attrs.tinkLevel){
+        level = parseInt(attrs.tinkLevel);
+      }
+      fixedCont.register(element,level);
     }
   };
 
@@ -25,11 +29,11 @@
     });
 
     angular.element($window).bind('touchstart.sticky', function() {
-        update();
+      update();
     });
 
     angular.element($window).bind('touchmove.sticky', function(event) {
-       update();
+      update();
     });
 
     update();
@@ -46,9 +50,10 @@
 
 
   var components=[];
+  var stickyList=[];
   var currentSticky={dummy:null,original:null};
 
-  function update(){
+  function updateOld(){
     var scrollTop = getScrollTop();
     $('#valueTop').html(scrollTop);
     $('#elementPos').html(components[0].top);
@@ -66,7 +71,7 @@
       if(next && scrollTop >= value.top && scrollTop < value.stop){
 
         var nextElement = $(components[key+1].elem);
-        if((nextElement.position().top - scrollTop) <= element.outerHeight(true)+padding){console.log('ok')
+        if((nextElement.position().top - scrollTop) <= element.outerHeight(true)+padding){
           var verschil = (nextElement.position().top-padding-scrollTop);
           // console.log(element.outerHeight(true)); 40
           var secondTop = (padding+verschil); // top van rode blok
@@ -86,6 +91,99 @@
 
   }
 
+  function update(){
+     var scrollTop = getScrollTop();
+     var lengthC = components.length;
+    components.forEach(function(value,key){
+      if(value.extra){
+        scrollTop += value.extra;
+      }
+       //We have a next element.
+      var next = key+1 < lengthC;
+      var element = $(value.elem);
+
+      //If not in viewport, next element.
+      if(scrollTop > value.top+element.outerHeight(true) && scrollTop>value.stop){
+        removeSticky(value);
+        return;
+      }
+
+     
+
+      //If we have a next element and the next element is on the SAME level.
+      if(next){
+
+        /*
+          Hier moeten we enkel de hoogte van het huidige element weten als we het sticky zetten en die hoogte in het dummy element steken.
+          Die extra hoogte is ook belangrijk in combinatie met de positie van het volgende element (van hetzelfde level).
+        */
+        if(components[key+1].level !== value.level){
+
+        }
+        /*
+          Hier moeten we ook de hoogte weten van de elementen van een hoger level die reeds sticky staan (kunnen meerdere levels zijn).
+          Voor de rest hebben die dezelfde behaviour als het eerste level
+        */
+       // console.log(scrollTop,value.top,value.stop,value.elem,scrollTop >= value.top && scrollTop < value.stop)
+        if(scrollTop >= value.top && scrollTop < value.stop){
+
+          addSticky(value);
+        }else{
+          removeSticky(value);
+        }
+
+      //Set the element sticky if it reached the top
+      } else {
+        //last element
+      }
+    });
+  }
+
+  function addSticky(obj){
+    if(obj && obj.elem){
+      var elem = $(obj.elem);
+      if(isSticky(obj)===-1){
+        var topHeight = padding;
+        if(stickyList.length !== 0){
+          for (var i = stickyList.length; i--;) {
+           var objNext = stickyList[i];
+           topHeight += $(objNext.elem).outerHeight(true);
+          };
+        }
+        obj.dummy = createDummy(elem);
+        elem.after(obj.dummy);
+        makeSticky(elem,topHeight);
+        stickyList.push(obj);
+      }
+    }
+  }
+
+  function removeSticky(obj){
+    if(obj && obj.elem){
+      var elem = $(obj.elem);
+      var stickyIndex = isSticky(obj);
+      if(stickyIndex > -1){
+        
+        var sticky = stickyList[stickyIndex];
+        sticky.dummy.remove();
+        $(sticky.elem).removeClass('sticky');
+        stickyList.splice(stickyIndex,1);
+     //   console.log(stickyIndex,obj,stickyList);
+      }
+    }
+  }
+
+  function createDummy(elem){
+    elem = $(elem);
+    return $( '<div>' ).height(elem.outerHeight(true));
+  }
+
+  function makeSticky(elem,top){
+    elem = $(elem);
+    elem.addClass('sticky');
+    elem.css('top',top+'px');
+  }
+
   function setSticky(obj,margin){
     if((currentSticky.dummy && $(currentSticky.original.elem).get(0) !== $(obj.elem).get(0)) || !currentSticky.dummy){
       removeSticky();
@@ -98,13 +196,13 @@
     }    
   }
 
-  function removeSticky(){
+  /*function removeSticky(){
     if(currentSticky.dummy){
       currentSticky.dummy.remove();
       $(currentSticky.original.elem).removeClass('sticky');
       currentSticky = {};
     }
-  }
+  }*/
 
   function calculateValues(){
     var lengthC = components.length;
@@ -112,24 +210,49 @@
       var next = key+1 < lengthC;
       var element = $(value.elem);
       if(next){
-        var nextElement = $(components[key+1].elem);
-        value.stop = nextElement.position().top;
+        for(var i=key+1;i<lengthC;i++){
+          var nextElement = $(components[i].elem);
+          if(components[i].level === value.level){
+            value.stop = components[i].top;
+            break;
+          }else if(components[i].level < value.level && value.stop === undefined){
+            value.stop = components[i].top;
+            for(var j=key;j>=0;j--){
+              if(components[j].level < value.level){
+                value.extra = $(components[j].elem).outerHeight(true);
+                break;
+              }
+            }
+            
+          }
+        }
+        
       }
     });
   }
 
+  function isSticky(obj){
+    var index = -1;
+    for (var i = stickyList.length; i--;) {
+      var objNext = stickyList[i];
+       if($(obj.elem).get(0) === $(objNext.elem).get(0)){
+        index=i;
+        break;
+      }
+    };
+    return index;
+  }
+
   var ctrl = {};
-  ctrl.register= function(element){
+  ctrl.register= function(element,level){
     var nakedEl = $(element).get(0);
-      components.push({elem: $(element),top:$(element).position().top});
+      components.push({elem: $(element),top:$(element).position().top,level:level});
       calculateValues();
       components = components.sort(function(a, b){
           a = parseInt(a.top);
           b = parseInt(b.top);
           return a - b;
       });
-      //$(element).addClass('sticky');
-
   }
   
   return ctrl;
