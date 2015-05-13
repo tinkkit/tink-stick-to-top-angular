@@ -80,13 +80,13 @@
 
       // If (viewport + sticky elements on same level) > scrollTop >= current element's top
       // Make sticky (or remove sticky)
-      if(scrollTop>= value.top && scrollTop < value.stop){
+      if(scrollTop> value.top && scrollTop <= value.stop){
         if(isSticky(value)===-1){
           if(prev){
             var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
             if(components[key-1].level !== value.level){
               addSticky(value);
-            }else if(scrollTop>=value.top && scrollTop<= value.top+prevOutherHeight){console.log(element.get(0).style.background)
+            }else if(scrollTop>value.top && scrollTop< value.top+prevOutherHeight){console.log(element.get(0).style.background)
               // console.log(element.get(0).style.background,scrollTop,value.top)
               var diff = value.top-scrollTop;
 
