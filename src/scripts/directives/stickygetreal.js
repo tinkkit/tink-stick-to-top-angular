@@ -68,7 +68,7 @@
 
       // If not in viewport, go to next element
       if(scrollTop > value.top+element.outerHeight(true) && scrollTop>value.stop){
-        removeSticky(value);
+        //removeSticky(value);
         return;
       }
 
@@ -76,12 +76,31 @@
       // Add ((Height of prev element) - (height of elements on a higher level)) to current scrollTop
       if(prev && components[key-1].level === value.level){
         scrollTop+=$(components[key-1].elem).outerHeight(true)-components[key-1].extra;
-      }
+     }
 
       // If (viewport + sticky elements on same level) > scrollTop >= current element's top
       // Make sticky (or remove sticky)
-      if(scrollTop >= value.top && scrollTop < value.stop){
-        addSticky(value);
+      if(scrollTop>= value.top && scrollTop < value.stop){
+        if(isSticky(value)===-1){
+          if(prev){
+            var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
+            if(components[key-1].level !== value.level){
+              addSticky(value);
+            }else if(scrollTop>=value.top && scrollTop<= value.top+prevOutherHeight){console.log(element.get(0).style.background)
+              // console.log(element.get(0).style.background,scrollTop,value.top)
+              var diff = value.top-scrollTop;
+
+              $(components[key-1].elem).css('top',components[key-1].extra+prevOutherHeight+diff+'px');
+              $(components[key-1].elem).css('z-index',0)
+            }else{
+              removeSticky(components[key-1]);
+              addSticky(value);
+            }
+          }else{
+            addSticky(value);
+          }
+
+        }        
       }else{
         removeSticky(value);
       }
@@ -161,6 +180,10 @@
               if(components[j].level < value.level){
                 value.extra = $(components[j].elem).outerHeight(true);
                 break;
+              }
+              value.prevHeigths = 0;
+              if(components[j].level < value.level){
+                value.prevHeigths += $(components[j].elem).outerHeight(true);
               }
             }
     });
