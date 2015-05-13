@@ -62,43 +62,40 @@
       /*
       EVEN NAAR DE WC ;-) oke :-)
       */
-
+      if(key == 0 ){
+         scrollTop += value.trigger; //0
+      }
       if(key == 1){
-        //value.top+=40; // level up
-        console.log(value);
+       scrollTop += value.trigger; // 40
       }
       if(key == 2){ 
-        scrollTop+=64; // level up
+         scrollTop += value.trigger; //64
       }
       if(key == 3){
-        scrollTop-=64; // level down
+        scrollTop += value.trigger-104; //40 - 104
       }
       if(key == 4){
-        scrollTop+=112; //same level
+        scrollTop += value.trigger-40;  // 40 - 40
       }
       if(key == 5){
-        scrollTop+=22; // same level height previous - 64
+         scrollTop += value.trigger-40; // 40 - 40
       }
        if(key == 6){
-        scrollTop-=176; // level down height previous + 64
+         scrollTop += value.trigger-40; // 0 - 40
       }
             // Check if we have a next/previous element
       var next = key+1 < lengthC;
       var prev = key-1 > -1;
       var element = $(value.elem); // current
+     
+     //scrollTop += value.trigger;
+   
 
-      if(value.extra){
-        //scrollTop += value.extra;
-        // if(prev && components[key-1].level > value.level){
-        //   scrollTop -= components[key-1].extra;
-        // }
+      //if not in viewport, go to next element
+      if(scrollTop > value.top+element.outerHeight(true) && scrollTop>value.stop){
+        removeSticky(value);
+        return;
       }
-
-      // If not in viewport, go to next element
-      // if(scrollTop > value.top+element.outerHeight(true) && scrollTop>value.stop){
-      //   removeSticky(value);
-      //   return;
-      // }
 
       // If there's a previous component of the same level:
       // Add ((Height of prev element) - (height of elements on a higher level)) to current scrollTop
@@ -109,26 +106,29 @@
       // If (viewport + sticky elements on same level) > scrollTop >= current element's top
       // Make sticky (or remove sticky)
       if(scrollTop> value.top && scrollTop < value.stop){
-        if(isSticky(value)===-1){
-          if(prev){
-            var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
-            if(components[key-1].level !== value.level){
-              addSticky(value);
-            }else if(scrollTop>value.top && scrollTop< value.top+prevOutherHeight){console.log(element.get(0).style.background)
-              // console.log(element.get(0).style.background,scrollTop,value.top)
-              var diff = value.top-scrollTop;
+        addSticky(value);
 
-             // $(components[key-1].elem).css('top',components[key-1].extra+prevOutherHeight+diff+'px');
-             // $(components[key-1].elem).css('z-index',0)
-            }else{
-              removeSticky(components[key-1]);
-              addSticky(value);
-            }
-          }else{
-            addSticky(value);
-          }
+        // if(isSticky(value)===-1){
+        //   if(prev){
+        //     //addSticky(value);
+        //     // var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
+        //     // if(components[key-1].level !== value.level){
+        //     //   addSticky(value);
+        //     // }else if(scrollTop>value.top && scrollTop< value.top+prevOutherHeight){console.log(element.get(0).style.background)
+        //     //   // console.log(element.get(0).style.background,scrollTop,value.top)
+        //     //   var diff = value.top-scrollTop;
 
-        }        
+        //     //  // $(components[key-1].elem).css('top',components[key-1].extra+prevOutherHeight+diff+'px');
+        //     //  // $(components[key-1].elem).css('z-index',0)
+        //     // }else{
+        //     //   removeSticky(components[key-1]);
+        //     //   addSticky(value);
+        //     // }
+        //   }else{
+        //    // addSticky(value);
+        //   }
+
+        // }        
       }else{
         removeSticky(value);
       }
