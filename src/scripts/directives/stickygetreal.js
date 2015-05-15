@@ -54,7 +54,7 @@
     var scrollTop = getScrollTop();//console.log(scrollTop)
     var lengthC = components.length;
 
-    $('#valueTop').html(scrollTop);
+    // $('#valueTop').html(scrollTop);
 
     // Go through list of all components
     // value = scrollTop of current object

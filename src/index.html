@@ -120,23 +120,23 @@ var module;
   </aside>
 </div>
 <style>
-  .sticky{
+  .sticky {
     position: fixed;
-    z-index: 1;
     width:100%;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    z-index: 1;
   }
-.main div{
-  opacity: .8;
-}
 
-  .touchfix{
+  .main > div {
+    opacity: .8;
+  }
+
+  .touchfix {
     -webkit-overflow-scrolling: touch
   }
-
 </style>
 
 <!-- CONTENT -->
@@ -155,7 +155,7 @@ var module;
   +12ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   +13ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="yellow" style='background:yellow;' data-tink-sticky>
-     <button>go to</button>
+     <button>level 1</button>
   </div>
   <script>
  // $( '#my-element' ).fixedsticky();
@@ -180,7 +180,7 @@ var module;
   17ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   18ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
     <div id="orange" style='background:orange;' data-tink-level="2" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 2</button>
      fkkmlddkfdsfdsk <br/>
     </div>
   19ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
@@ -190,7 +190,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
 
   <div id="black" style='background:black;' data-tink-level="3" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 3</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
   </div>
@@ -201,7 +201,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="purple" style='background:purple;' data-tink-level="2" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 2</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
@@ -220,7 +220,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="red" style='background:red;' data-tink-level="2" data-tink-sticky>
-     <button>go tovv</button><br/>
+     <button>level 2</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
@@ -250,7 +250,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
 
     <div id="pink" style='background:pink;' data-tink-level="2" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 2</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
@@ -272,7 +272,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="brown" style='background:brown;' data-tink-level="1" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 1</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
@@ -292,7 +292,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="silver" style='background:silver;' data-tink-level="2" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 2</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
@@ -305,7 +305,7 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="cyan" style='background:cyan;' data-tink-level="2" data-tink-sticky>
-     <button>go to</button><br/>
+     <button>level 2</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
@@ -319,12 +319,46 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   <div id="magenta" style='background:magenta;' data-tink-level="3" data-tink-sticky>
-     <button>go to</button><br/>
-     fkkmlddkfdsfdsk <br/>
+     <button>level 3</button>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
      fkkmlddkfdsfdsk <br/>
   </div>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  <div id="beige" style='background:beige;' data-tink-level="4" data-tink-sticky>
+     <button>level 4</button>
+     fkkmlddkfdsfdsk <br/>
+     fkkmlddkfdsfdsk <br/>
+  </div>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  <div id="olive" style='background:olive;' data-tink-level="2" data-tink-sticky>
+     <button>level 2</button>
+     fkkmlddkfdsfdsk <br/>
+  </div>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
+  ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
