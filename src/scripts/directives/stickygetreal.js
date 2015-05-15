@@ -54,42 +54,19 @@
     var scrollTop = getScrollTop();//console.log(scrollTop)
     var lengthC = components.length;
 
+    $('#valueTop').html(scrollTop);
+
     // Go through list of all components
     // value = scrollTop of current object
     components.forEach(function(value,key){
 
+      // Compensation
+      scrollTop += value.extra - value.trigger;
 
-      /*
-      EVEN NAAR DE WC ;-) oke :-)
-      */
-      if(key == 0 ){
-         scrollTop += value.trigger; //0
-      }
-      if(key == 1){
-       scrollTop += value.trigger; // 40
-      }
-      if(key == 2){ 
-         scrollTop += value.trigger; //64
-      }
-      if(key == 3){
-        scrollTop += value.trigger-104; //40 - 104
-      }
-      if(key == 4){
-        scrollTop += value.trigger-40;  // 40 - 40
-      }
-      if(key == 5){
-         scrollTop += value.trigger-40; // 40 - 40
-      }
-       if(key == 6){
-         scrollTop += value.trigger-40; // 0 - 40
-      }
-            // Check if we have a next/previous element
+      // Check if we have a next/previous element
       var next = key+1 < lengthC;
       var prev = key-1 > -1;
       var element = $(value.elem); // current
-     
-     //scrollTop += value.trigger;
-   
 
       //if not in viewport, go to next element
       if(scrollTop > value.top+element.outerHeight(true) && scrollTop>value.stop){
@@ -97,52 +74,16 @@
         return;
       }
 
-      // If there's a previous component of the same level:
-      // Add ((Height of prev element) - (height of elements on a higher level)) to current scrollTop
-      if(prev && components[key-1].level === value.level){
-        //scrollTop+=$(components[key-1].elem).outerHeight(true)-components[key-1].extra;
-     }
-
       // If (viewport + sticky elements on same level) > scrollTop >= current element's top
       // Make sticky (or remove sticky)
       if(scrollTop> value.top && scrollTop < value.stop){
         addSticky(value);
-
-        // if(isSticky(value)===-1){
-        //   if(prev){
-        //     //addSticky(value);
-        //     // var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
-        //     // if(components[key-1].level !== value.level){
-        //     //   addSticky(value);
-        //     // }else if(scrollTop>value.top && scrollTop< value.top+prevOutherHeight){console.log(element.get(0).style.background)
-        //     //   // console.log(element.get(0).style.background,scrollTop,value.top)
-        //     //   var diff = value.top-scrollTop;
-
-        //     //  // $(components[key-1].elem).css('top',components[key-1].extra+prevOutherHeight+diff+'px');
-        //     //  // $(components[key-1].elem).css('z-index',0)
-        //     // }else{
-        //     //   removeSticky(components[key-1]);
-        //     //   addSticky(value);
-        //     // }
-        //   }else{
-        //    // addSticky(value);
-        //   }
-
-        // }        
       }else{
         removeSticky(value);
       }
     });
   }
 
-/*function update(){
-  components.forEach(function(value,key){
-    var scrollTop = getScrollTop();
-    var next = key+1 < lengthC;
-    var prev = key-1 > -1;
-    if()
-  });
-}*/
   /*
   Make element sticky
    */
@@ -192,38 +133,6 @@
   Runs on startup to calculate all necessary values
   To do: make it also run on viewport resize
    */
-  /*function calculateValues(){
-    var lengthC = components.length;
-    components.forEach(function(value,key){
-      var next = key+1 < lengthC;
-      var element = $(value.elem);
-      if(next){
-        for(var i=key+1;i<lengthC;i++){
-          if(components[i].level === value.level){
-            value.stop = components[i].top;
-            break;
-          }else if(components[i].level < value.level && value.stop === undefined){
-            value.stop = components[i].top;
-          }
-        }
-        //console.log($window.innerHeight,$window,($(document).height() - $(window).height()))
-        if(value.stop === undefined){
-          value.stop = $(document).height() - $(window).height();
-        }
-      }
-      for(var j=key;j>=0;j--){
-              if(components[j].level < value.level){
-                value.extra = $(components[j].elem).outerHeight(true);
-                break;
-              }
-              value.prevHeigths = 0;
-              if(components[j].level < value.level){
-                value.prevHeigths += $(components[j].elem).outerHeight(true);
-              }
-            }
-    });
-  }*/
-
   function calculateValues(){
     var lengthC = components.length;
 
@@ -231,23 +140,30 @@
       var next = key+1 < lengthC;
       value.extra = 0;
       value.trigger = undefined;
-      for( var j=key;j>0;j--){
+
+      // console.log($(value.elem).get(0).id);
+
+      // Loop through previous components in order to define 'extra' (var extra = top coordinate where block sits when sticky)
+      for(var j=key; j>0; j--){
+
         var pre = components[j-1];
-        if(pre.level < value.level){
-          value.extra += $(pre.elem).outerHeight(true);
-          if(value.trigger === undefined){
-            value.trigger = value.extra;
-          }
-        }else if(pre.level === value.level){
+
+        if(value.trigger === undefined){
+          value.trigger = pre.extra;
+        }
+        if(pre && pre.level < value.level){
+          value.extra = pre.extra + $(pre.elem).outerHeight(true);
+          break;
+        } else if(pre && pre.level === value.level) {
           value.extra = pre.extra;
-          value.trigger = value.extra;
           break;
         }
+        // console.log(value.extra);
       }
+      // console.log("--------");
       if(next){
         for(var i=key+1;i<lengthC;i++){
           var nextv = components[i];
-          console.log(value.level,nextv.level);
           if(value.level >= nextv.level){
             value.stop = nextv.top;
             break;
@@ -262,9 +178,9 @@
         value.stop = $(document).height() - $(window).height();
       }
 
-
     });
-    console.log(components)
+
+    console.log(components);
   }
 
   /*
