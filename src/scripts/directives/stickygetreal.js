@@ -54,11 +54,11 @@
     var scrollTop = getScrollTop();//console.log(scrollTop)
     var lengthC = components.length;
 
-    // $('#valueTop').html(scrollTop);
+    $('#valueTop').html(scrollTop);
 
     // Go through list of all components
     // value = scrollTop of current object
-    components.forEach(function(value,key){
+    components.forEach(function(value, key) {
 
       // Compensation
       scrollTop += value.extra - value.trigger;
@@ -69,20 +69,81 @@
       var element = $(value.elem); // current
 
       //if not in viewport, go to next element
-      if(scrollTop > value.top+element.outerHeight(true) && scrollTop>value.stop){
+      if(scrollTop > value.top+element.outerHeight(true) && scrollTop > value.stop){
         removeSticky(value);
         return;
       }
 
+
+      // Push me!
+      /*
+        The element:
+        - must be sticky
+        - the succeeding element should not be sticky itself
+        - the succeeding element should not be of a higher level
+       */
+      if(element.hasClass('sticky')){
+        // if(!$(components[key+1].elem).hasClass('sticky')) {
+          if(components[key+1].level <= value.level) {
+            var totalHeight = 0;
+            stickyList.forEach(function(val, ke) {
+              totalHeight += $(val.elem).outerHeight(true);
+            });
+            totalHeight -= $(components[key+1].elem).outerHeight(true);
+            // replace (element.outerHeight(true)) with (totalHeight)
+            if((components[key+1].top - element.outerHeight(true)) < scrollTop) {
+              // console.log(element.get(0).style.background);
+              // console.log(components[key+1].level);
+              // console.log('hit');
+            }
+          }
+          // console.log(scrollTop + element.outerHeight(true));
+          // console.log($(components[key+1].elem));
+          // console.log(components[key+1].top);
+        // }
+      }
+      // if(next){
+      //   pushLevels(value, components[key+1], scrollTop);
+      // }
+
+
       // If (viewport + sticky elements on same level) > scrollTop >= current element's top
       // Make sticky (or remove sticky)
-      if(scrollTop> value.top && scrollTop < value.stop){
+      // var nextOutherHeight = $(components[key+1].elem).outerHeight(true);
+
+      if(scrollTop > value.top && scrollTop < value.stop){
         addSticky(value);
+
+        // if(isSticky(value)===-1){
+        //   if(prev){
+        //     addSticky(value);
+        //     var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
+        //     if(components[key-1].level !== value.level){
+        //       addSticky(value);
+        //     }else if(scrollTop>value.top && scrollTop< value.top+prevOutherHeight){console.log(element.get(0).style.background)
+        //       // console.log(element.get(0).style.background,scrollTop,value.top)
+        //       var diff = value.top-scrollTop;
+
+        //      // $(components[key-1].elem).css('top',components[key-1].extra+prevOutherHeight+diff+'px');
+        //      // $(components[key-1].elem).css('z-index',0)
+        //     }else{
+        //       removeSticky(components[key-1]);
+        //       addSticky(value);
+        //     }
+        //   }else{
+        //    addSticky(value);
+        //   }
+        // }
+
       }else{
         removeSticky(value);
       }
     });
   }
+
+  // function pushLevels(obj1, obj2, scrollTop) {
+
+  // }
 
   /*
   Make element sticky
@@ -116,7 +177,6 @@
         sticky.dummy.remove();
         $(sticky.elem).removeClass('sticky');
         stickyList.splice(stickyIndex,1);
-     //   console.log(stickyIndex,obj,stickyList);
       }
     }
   }
