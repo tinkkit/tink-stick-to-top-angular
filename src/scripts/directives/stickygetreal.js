@@ -40,8 +40,12 @@
       update();
     });
 
-    update();
+    angular.element($window).bind('touchend.sticky', function(event) {
+      update();
+    });
     calculateValues();
+    update();
+    
   },250);
 
   var components=[];
@@ -51,6 +55,7 @@
   Loop through this while scrolling
    */
   function update(){
+
     var scrollTop = getScrollTop();
     var lengthC = components.length;
 
@@ -59,6 +64,21 @@
     // Go through list of all components
     // value = scrollTop of current object
     components.forEach(function(value, key) {
+
+      function stickyCal(){
+        if(element.hasClass('sticky') && stickyList.length > 0){
+          var lastIndex = stickyList.length-1;
+          var v = stickyList[lastIndex];
+            if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
+              var e = (v.stop-scrollTop);
+              var diff = $(v.elem).outerHeight(true) - e;
+              var diff2 = (padding+v.extra) - diff;
+              $(v.elem).css('top', diff2+'px');
+            }else{
+              $(v.elem).css('top', v.extra+padding+'px');
+            }
+        }
+      }
 
       // Compensation
       scrollTop += value.extra - value.trigger;
@@ -78,25 +98,18 @@
         Second attempt:
         - Monitor elements that are not sticky and see if their top is "in the zone".
        */
-      if(element.hasClass('sticky') && stickyList.length > 0){
-        var lastIndex = stickyList.length-1;
-        var v = stickyList[lastIndex];
-          if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
-            var e = (v.stop-scrollTop);
-            var diff = $(v.elem).outerHeight(true) - e;
-            var diff2 = (padding+v.extra) - diff;
-            $(v.elem).css('top', diff2+'px');
-          }
-      }
+       stickyCal()
 
-
-      if(scrollTop > value.top && scrollTop < value.stop){
+      if(scrollTop > value.top && (scrollTop < value.stop || value.stop === undefined)){
         addSticky(value);
-      }else if(go){
+      }else{
         removeSticky(value);
       }
+      stickyCal();
     });
   }
+
+
 
  var highLevel = 0;
   /*
@@ -186,12 +199,12 @@
           }
         }
         if(value.stop === undefined){
-          value.stop = $(document).height() - $(window).height();
+          //value.stop = $(document).height() - $(window).height();
         }if(value.trigger === undefined){
           value.trigger = 0;
         }
       }else{
-        value.stop = $(document).height() - $(window).height();
+        //value.stop = $(document).height() - $(window).height();
       }
       value.zindex = (highLevel+1) - value.level
     });
