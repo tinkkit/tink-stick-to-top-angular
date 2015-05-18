@@ -76,14 +76,27 @@
 
       /*
         Second attempt:
-        - Monitor elements that are not sticky and see if there top is "in the zone".
+        - Monitor elements that are not sticky and see if their top is "in the zone".
        */
-      if(element.hasClass('sticky')){
-        stickyList.forEach(function(v,k){
+      if(element.hasClass('sticky') && stickyList.length > 0){
+        var lastIndex = stickyList.length-1;
+        var v = stickyList[lastIndex];
+        //stickyList.forEach(function(v,k){
           if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
-            console.log('hit');
+            console.log(v.elem.attr('id'));
+
+            // var diff = ((v.extra+scrollTop-$(v.elem).outerHeight(true))-value.top);
+           // var diff = v.extra + v.top - scrollTop + $(v.elem).outerHeight(true);
+           // var diff = v.top - (scrollTop+v.extra);
+            var e = (v.stop-scrollTop);
+            var diff = $(v.elem).outerHeight(true) - e;
+            var diff2 = (padding+v.extra) - diff;
+            // var diff = value.extra + e;
+            console.log(diff, diff2);
+            $(v.elem).css('top', diff2+'px');
+            $(v.elem).css('z-index', 98);
           }
-        });
+        //});
       }
 
 
@@ -132,6 +145,7 @@
     if(obj && obj.elem){
       var elem = $(obj.elem);
       if(isSticky(obj)===-1){
+        elem.css('z-index', 99);
         var topHeight = padding;
         if(obj.extra){
           topHeight+= obj.extra;
@@ -154,6 +168,7 @@
       if(stickyIndex > -1){
 
         var sticky = stickyList[stickyIndex];
+        sticky.elem.css('z-index',99);
         sticky.dummy.remove();
         $(sticky.elem).removeClass('sticky');
         stickyList.splice(stickyIndex,1);
