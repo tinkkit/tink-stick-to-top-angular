@@ -261,6 +261,8 @@
           b = parseInt(b.top);
           return a - b;
       });
+    calculateValues();
+    update();
   }
 
   return ctrl;
