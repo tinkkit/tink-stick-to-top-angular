@@ -81,63 +81,24 @@
       if(element.hasClass('sticky') && stickyList.length > 0){
         var lastIndex = stickyList.length-1;
         var v = stickyList[lastIndex];
-        //stickyList.forEach(function(v,k){
           if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
-            console.log(v.elem.attr('id'));
-
-            // var diff = ((v.extra+scrollTop-$(v.elem).outerHeight(true))-value.top);
-           // var diff = v.extra + v.top - scrollTop + $(v.elem).outerHeight(true);
-           // var diff = v.top - (scrollTop+v.extra);
             var e = (v.stop-scrollTop);
             var diff = $(v.elem).outerHeight(true) - e;
             var diff2 = (padding+v.extra) - diff;
-            // var diff = value.extra + e;
-            console.log(diff, diff2);
             $(v.elem).css('top', diff2+'px');
-            $(v.elem).css('z-index', 98);
           }
-        //});
       }
 
 
-      // If (viewport + sticky elements on same level) > scrollTop >= current element's top
-      // Make sticky (or remove sticky)
-      // var nextOutherHeight = $(components[key+1].elem).outerHeight(true);
-
       if(scrollTop > value.top && scrollTop < value.stop){
         addSticky(value);
-
-        // if(isSticky(value)===-1){
-        //   if(prev){
-        //     addSticky(value);
-        //     var prevOutherHeight = $(components[key-1].elem).outerHeight(true);
-        //     if(components[key-1].level !== value.level){
-        //       addSticky(value);
-        //     }else if(scrollTop>value.top && scrollTop< value.top+prevOutherHeight){console.log(element.get(0).style.background)
-        //       // console.log(element.get(0).style.background,scrollTop,value.top)
-        //       var diff = value.top-scrollTop;
-
-        //      // $(components[key-1].elem).css('top',components[key-1].extra+prevOutherHeight+diff+'px');
-        //      // $(components[key-1].elem).css('z-index',0)
-        //     }else{
-        //       removeSticky(components[key-1]);
-        //       addSticky(value);
-        //     }
-        //   }else{
-        //    addSticky(value);
-        //   }
-        // }
-
-      }else{
+      }else if(go){
         removeSticky(value);
       }
     });
   }
 
-  // function pushLevels(obj1, obj2, scrollTop) {
-
-  // }
-
+ var highLevel = 0;
   /*
   Make element sticky
    */
@@ -145,7 +106,7 @@
     if(obj && obj.elem){
       var elem = $(obj.elem);
       if(isSticky(obj)===-1){
-        elem.css('z-index', 99);
+        elem.css('z-index', obj.zindex);
         var topHeight = padding;
         if(obj.extra){
           topHeight+= obj.extra;
@@ -168,7 +129,7 @@
       if(stickyIndex > -1){
 
         var sticky = stickyList[stickyIndex];
-        sticky.elem.css('z-index',99);
+        sticky.elem.css('z-index',obj.zindex);
         sticky.dummy.remove();
         $(sticky.elem).removeClass('sticky');
         stickyList.splice(stickyIndex,1);
@@ -232,10 +193,9 @@
       }else{
         value.stop = $(document).height() - $(window).height();
       }
-
+      value.zindex = (highLevel+1) - value.level
     });
 
-    console.log(components);
   }
 
   /*
@@ -278,6 +238,9 @@
   var ctrl = {};
 
   ctrl.register= function(element,level){
+    if(highLevel < level){
+      highLevel = level;
+    }
     var nakedEl = $(element).get(0);
       components.push({elem: $(element),top:$(element).position().top,level:level});
       components = components.sort(function(a, b){
