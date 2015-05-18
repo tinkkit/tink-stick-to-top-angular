@@ -51,7 +51,7 @@
   Loop through this while scrolling
    */
   function update(){
-    var scrollTop = getScrollTop();//console.log(scrollTop)
+    var scrollTop = getScrollTop();
     var lengthC = components.length;
 
     $('#valueTop').html(scrollTop);
@@ -74,37 +74,17 @@
         return;
       }
 
-
-      // Push me!
       /*
-        The element:
-        - must be sticky
-        - the succeeding element should not be sticky itself
-        - the succeeding element should not be of a higher level
+        Second attempt:
+        - Monitor elements that are not sticky and see if there top is "in the zone".
        */
       if(element.hasClass('sticky')){
-        // if(!$(components[key+1].elem).hasClass('sticky')) {
-          if(components[key+1].level <= value.level) {
-            var totalHeight = 0;
-            stickyList.forEach(function(val, ke) {
-              totalHeight += $(val.elem).outerHeight(true);
-            });
-            totalHeight -= $(components[key+1].elem).outerHeight(true);
-            // replace (element.outerHeight(true)) with (totalHeight)
-            if((components[key+1].top - element.outerHeight(true)) < scrollTop) {
-              // console.log(element.get(0).style.background);
-              // console.log(components[key+1].level);
-              // console.log('hit');
-            }
+        stickyList.forEach(function(v,k){
+          if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
+            console.log('hit');
           }
-          // console.log(scrollTop + element.outerHeight(true));
-          // console.log($(components[key+1].elem));
-          // console.log(components[key+1].top);
-        // }
+        });
       }
-      // if(next){
-      //   pushLevels(value, components[key+1], scrollTop);
-      // }
 
 
       // If (viewport + sticky elements on same level) > scrollTop >= current element's top
