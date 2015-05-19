@@ -44,6 +44,25 @@
     angular.element($window).bind('touchend.sticky', function(event) {
       update();
     });
+
+    angular.element($window).bind('resize.sticky', function(event) {
+      var copy = [];
+      components.forEach(function(v,k){
+        removeSticky(v);
+        copy.push({elem:v.elem,level:v.level});
+      })
+      components=[];
+      stickyList=[];
+      padding = parseInt($('body').css('padding-top')) || 0;
+      copy.forEach(function(v,l){
+        v.elem.css('top','auto');
+        v.elem.removeClass(stickyClass);
+        ctrl.register(v.elem,v.level);
+      })
+      calculateValues();
+      update();
+    });
+
     calculateValues();
     update();
 
