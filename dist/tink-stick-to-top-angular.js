@@ -3,7 +3,7 @@
   try {
     module = angular.module('tink.sticktotop');
   } catch (e) {
-    module = angular.module('tink.sticktotop', ['tink.navigation']);
+    module = angular.module('tink.sticktotop', []);
   }
   module.directive('tinkSticky',['$timeout','$window','fixedCont',function ($timeout,$window,fixedCont) {
    return {
@@ -21,12 +21,13 @@
 }]).factory('fixedCont',['$window','$timeout',function($window,$timeout){
 
   var padding;
+  var stickyClass = 'is-sticky';
 
   /*
   Trigger update function while scrolling
    */
   $timeout(function(){
-    padding = parseInt($('body').css('padding-top'));
+    padding = parseInt($('body').css('padding-top')) || 0;
 
     angular.element($window).bind('scroll.sticky', function() {
       update();
@@ -45,7 +46,7 @@
     });
     calculateValues();
     update();
-    
+
   },250);
 
   var components=[];
@@ -59,14 +60,15 @@
     var scrollTop = getScrollTop();
     var lengthC = components.length;
 
-    $('#valueTop').html(scrollTop);
+    // Debug
+    // $('#valueTop').html(scrollTop);
 
     // Go through list of all components
     // value = scrollTop of current object
     components.forEach(function(value, key) {
 
       function stickyCal(){
-        if(element.hasClass('sticky') && stickyList.length > 0){
+        if(element.hasClass(stickyClass) && stickyList.length > 0){
           var lastIndex = stickyList.length-1;
           var v = stickyList[lastIndex];
             if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
@@ -144,7 +146,7 @@
         var sticky = stickyList[stickyIndex];
         sticky.elem.css('z-index',obj.zindex);
         sticky.dummy.remove();
-        $(sticky.elem).removeClass('sticky');
+        $(sticky.elem).removeClass(stickyClass);
         stickyList.splice(stickyIndex,1);
       }
     }
@@ -242,7 +244,7 @@
    */
   function makeSticky(elem,top){
     elem = $(elem);
-    elem.addClass('sticky');
+    elem.addClass(stickyClass);
     elem.css('top',top+'px');
   }
 
@@ -269,3 +271,4 @@
 
 }]);
 })();
+;

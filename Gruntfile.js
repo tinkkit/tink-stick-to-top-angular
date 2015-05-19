@@ -188,7 +188,7 @@ module.exports = function (grunt) {
       server: {
         files: [{
           src: [
-            '.tmp',
+            // '.tmp',
             '<%= yeoman.dist %>/scripts'
           ]
         }]
@@ -407,9 +407,9 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     // 'cssUrlEmbed',
-    'usemin',
-    'copy:styles',
-    'cssmin',
+    // 'usemin',
+    // 'copy:styles',
+    // 'cssmin',
     'clean:server'
   ]);
 

@@ -2,6 +2,16 @@
 @import "../../bower_components/tink-core/dist/tink/functions";
 @import "../../bower_components/tink-core/dist/tink/mixins";
 
+.is-sticky {
+  position: fixed;
+  transform: translate(0, 0);
+  width: 100%;
+}
+
+// .touchfix {
+//   -webkit-overflow-scrolling: touch
+// }
+
 .infoboard {
   background-color: rgba(#000, .8);
   bottom: 0;

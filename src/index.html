@@ -11,7 +11,7 @@
   <!-- endbower -->
   <link rel="stylesheet" href="styles/sticky.css" />
 </head>
-<body ng-controller="ctrl" class="touchfix">
+<body ng-controller="ctrl">
 
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -22,10 +22,7 @@
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angular-touch/angular-touch.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/tink-api-javascript/dist/tink-api-javascript.js"></script>
-<script src="bower_components/tink-api-angular/dist/tink-api-angular.js"></script>
 <!-- endbower -->
-<script src="bower_components/tink-navigation-angular/dist/tink-navigation-angular.js"></script>
 
 <script>
 var module;
@@ -119,21 +116,6 @@ var module;
     </div>
   </aside>
 </div>
-<style>
-  .sticky {
-    position: fixed;
-    width:100%;
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    z-index: 1;
-  }
-
-  .touchfix {
-    -webkit-overflow-scrolling: touch
-  }
-</style>
 
 <!-- CONTENT -->
 <div class="main">
@@ -392,15 +374,18 @@ var module;
   ddfjdfsjdsjdflkdfslkjdfsjldfsjdfsdfs<br/>
 </div>
 
-<div class="infoboard">
+<!-- <div class="infoboard">
  <dl class="dl-horizontal margin-right margin-top ">
    <dt>Scrolltop</dt>
     <dd id='valueTop'>value</dd>
    <dt>top</dt>
     <dd id='elementPos'>value</dd>
  </dl>
-</div>
+</div> -->
 
-<script src="scripts/directives/stickygetreal.js"></script>
+<script src="bower_components/tink-api-javascript/dist/tink-api-javascript.js"></script>
+<script src="bower_components/tink-api-angular/dist/tink-api-angular.js"></script>
+<script src="bower_components/tink-navigation-angular/dist/tink-navigation-angular.js"></script>
+<script src="scripts/directives/tink-stick-to-top-angular.js"></script>
 </body>
 </html>

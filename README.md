@@ -4,9 +4,9 @@ v1.0.0
 
 ## What is this repository for?
 
-The Tink Angular stick to top provides a way to keep your div sticking to the top of your page.
+The Tink Angular stick to top directive provides a way to keep your div sticking to the top of your page.
 
-Tink is an in-house developed easy-to-use front end framework for quick prototyping and simple deployment of all kinds of websites and apps, keeping a uniform and consistent look and feel.
+Tink is an in-house developed easy-to-use front-end framework for quick prototyping and simple deployment of all kinds of websites and apps, keeping a uniform and consistent look and feel.
 
 ## Setup
 
@@ -20,9 +20,53 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 1. Go to the root of your project and type the following command in your terminal:
    `bower install tink-stick-to-top-angular --save`
 
-2. Include `dist/tink-stick-to-top-angular.js` and its necessary dependencies in your project.
+2. Add the following files to your project:
 
-3. On http://tink.digipolis.be you will find all necessary documentation.
+  `<link rel="stylesheet" href="bower_components/tink-core/dist/tink.css" />` (or one of the Tink themes)
+
+  `<script src="bower_components/tink-stick-to-top-angular/dist/tink-stick-to-top-angular.js"></script>`
+
+## How to use
+
+Basic example:
+
+```html
+<div data-tink-sticky>
+  <p>This content will stick to the top of the page until the next sticky element pushes it away. Note that it will remain sticky if it is the last sticky element.</p>
+</div>
+```
+
+If you want more levels to be sticky:
+
+```html
+<div data-tink-sticky data-tink-level="1">
+  <p>Main sticky element</p>
+</div>
+<div data-tink-sticky data-tink-level="2">
+  <p>This element will stick to the bottom of the previous level until the next sticky element (same level or lower) pushes it away. Note that it will remain sticky if it is the last sticky element.</p>
+</div>
+```
+
+## Options
+
+<table class="table-dev">
+  <thead>
+    <tr>
+      <th>Attr</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data-tink-level</td>
+      <td>Number</td>
+      <td>1</td>
+      <td>Levels allow sticky elements to be stacked.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Contribution guidelines
 
