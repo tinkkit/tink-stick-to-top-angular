@@ -76,7 +76,7 @@
    */
   function update(){
 
-    var scrollTop = getScrollTop();
+    var scrollTop = getScrollTop()+padding;
     var lengthC = components.length;
 
     // Debug
@@ -185,6 +185,9 @@
    */
   function calculateValues(){
     var lengthC = components.length;
+    if($('nav[data-tink-top-nav]') && $('nav[data-tink-top-nav]').css('z-index') < highLevel){
+      $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
+    }
 
     components.forEach(function(value,key){
       var next = key+1 < lengthC;
@@ -272,16 +275,20 @@
   var ctrl = {};
 
   ctrl.register= function(element,level){
-    if(highLevel < level){
-      highLevel = level;
-    }
-    var nakedEl = $(element).get(0);
-      components.push({elem: $(element),top:$(element).position().top,level:level});
-      components = components.sort(function(a, b){
-          a = parseInt(a.top);
-          b = parseInt(b.top);
-          return a - b;
-      });
+    $timeout(function(){
+      if(highLevel < level){
+        highLevel = level;
+      }
+      var nakedEl = $(element).get(0);
+        components.push({elem: $(element),top:$(element).position().top,level:level});
+        components = components.sort(function(a, b){
+            a = parseInt(a.top);
+            b = parseInt(b.top);
+            return a - b;
+        });
+        calculateValues();
+        update();
+    },250);
   }
 
   return ctrl;

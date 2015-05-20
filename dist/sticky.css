@@ -137,13 +137,6 @@
 /**
  * Bar component
  */
-.is-sticky {
-  position: fixed;
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-  width: 100%; }
-
 .infoboard {
   background-color: rgba(0, 0, 0, 0.8);
   bottom: 0;
