@@ -18,7 +18,8 @@ Tink is an in-house developed easy-to-use front-end framework for quick prototyp
 ### Install
 
 1. Go to the root of your project and type the following command in your terminal:
-   `bower install tink-stick-to-top-angular --save`
+
+  `bower install tink-stick-to-top-angular --save`
 
 2. Add the following files to your project:
 
@@ -26,9 +27,15 @@ Tink is an in-house developed easy-to-use front-end framework for quick prototyp
 
   `<script src="bower_components/tink-stick-to-top-angular/dist/tink-stick-to-top-angular.js"></script>`
 
+
+----------
+
+
 ## How to use
 
-Basic example:
+### tink-sticky
+
+### Component
 
 ```html
 <div data-tink-sticky>
@@ -47,26 +54,13 @@ If you want more levels to be sticky:
 </div>
 ```
 
-## Options
+### Options
 
-<table class="table-dev">
-  <thead>
-    <tr>
-      <th>Attr</th>
-      <th>Type</th>
-      <th>Default</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>data-tink-level</td>
-      <td>Number</td>
-      <td>1</td>
-      <td>Levels allow sticky elements to be stacked.</td>
-    </tr>
-  </tbody>
-</table>
+#### Accordion
+
+Attr | Type | Default | Details
+--- | --- | --- | ---
+data-tink-level | `number` | `1` | Levels allow sticky elements to be stacked.
 
 ## Contribution guidelines
 
