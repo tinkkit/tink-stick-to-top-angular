@@ -5,7 +5,7 @@
   } catch (e) {
     module = angular.module('tink.sticktotop', []);
   }
-  module.directive('tinkSticky',['$timeout','$window','fixedCont',function ($timeout,$window,fixedCont) {
+  module.directive('tinkSticky',['$timeout','$window','stickyService',function ($timeout,$window,fixedCont) {
    return {
     restrict: 'A',
     link: function (scope, element, attrs) {
@@ -18,10 +18,31 @@
   };
 
 
-}]).factory('fixedCont',['$window','$timeout',function($window,$timeout){
-
+}]).factory('stickyService',['$window','$timeout',function($window,$timeout){
+  // Create scope for factory
+  var ctrl = {};
   var padding;
   var stickyClass = 'is-sticky';
+  var components=[];
+  var stickyList=[];
+
+  function resizeFn(){
+      var copy = [];
+      components.forEach(function(v,k){
+        removeSticky(v);
+        copy.push({elem:v.elem,level:v.level});
+      })
+      components=[];
+      stickyList=[];
+      padding = parseInt($('body').css('padding-top')) || 0;
+      copy.forEach(function(v,l){
+        v.elem.css('top','auto');
+        v.elem.removeClass(stickyClass);
+        ctrl.register(v.elem,v.level);
+      })
+      calculateValues();
+      update();
+    }
 
   /*
   Trigger update function while scrolling
@@ -45,31 +66,16 @@
       update();
     });
 
-    angular.element($window).bind('resize.sticky', function(event) {
-      var copy = [];
-      components.forEach(function(v,k){
-        removeSticky(v);
-        copy.push({elem:v.elem,level:v.level});
-      })
-      components=[];
-      stickyList=[];
-      padding = parseInt($('body').css('padding-top')) || 0;
-      copy.forEach(function(v,l){
-        v.elem.css('top','auto');
-        v.elem.removeClass(stickyClass);
-        ctrl.register(v.elem,v.level);
-      })
-      calculateValues();
-      update();
-    });
+    angular.element($window).bind('resize.sticky', resizeFn);
 
     calculateValues();
     update();
 
   },250);
 
-  var components=[];
-  var stickyList=[];
+  ctrl.update = function(){
+    resizeFn.call();
+  }
 
   /*
   Loop through this while scrolling
@@ -231,6 +237,9 @@
         //value.stop = $(document).height() - $(window).height();
       }
       value.zindex = (highLevel+1) - value.level
+      if(value.trigger === undefined){
+        value.trigger = 0;
+      }
     });
 
   }
@@ -271,8 +280,7 @@
   }
 
 
-  // Create scope for factory
-  var ctrl = {};
+
 
   ctrl.register= function(element,level){
     $timeout(function(){
@@ -280,7 +288,7 @@
         highLevel = level;
       }
       var nakedEl = $(element).get(0);
-        components.push({elem: $(element),top:$(element).position().top,level:level});
+        components.push({elem: $(element),top:$(element).offset().top,level:level});
         components = components.sort(function(a, b){
             a = parseInt(a.top);
             b = parseInt(b.top);

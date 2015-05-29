@@ -28,6 +28,7 @@
     "angular-scenario": "~1.3.12",
     "tink-api-javascript": "latest",
     "tink-api-angular": "latest",
-    "tink-navigation-angular": "latest"
+    "tink-navigation-angular": "latest",
+    "tink-accordion-angular":"latest"
   }
 }
