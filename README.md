@@ -1,6 +1,6 @@
 # Tink stick to top Angular directive
 
-v1.0.1
+v1.0.2
 
 ## What is this repository for?
 
@@ -19,23 +19,27 @@ Tink is an in-house developed easy-to-use front-end framework for quick prototyp
 
 1. Go to the root of your project and type the following command in your terminal:
 
-  `bower install tink-stick-to-top-angular --save`
+   `bower install tink-stick-to-top-angular --save`
 
 2. Add the following files to your project:
 
-  `<link rel="stylesheet" href="bower_components/tink-core/dist/tink.css" />` (or one of the Tink themes)
+   `<link rel="stylesheet" href="bower_components/tink-core/dist/tink.css" />` (or one of the Tink themes)
 
-  `<script src="bower_components/tink-stick-to-top-angular/dist/tink-stick-to-top-angular.js"></script>`
+   `<script src="bower_components/tink-stick-to-top-angular/dist/tink-stick-to-top-angular.js"></script>`
+
+3. Add `tink.sticktotop` to your app module's dependency.
+
+   `angular.module('myApp', ['tink.sticktotop']);`
+
 
 
 ----------
 
 
+
 ## How to use
 
 ### tink-sticky
-
-### Component
 
 ```html
 <div data-tink-sticky>
@@ -56,11 +60,13 @@ If you want more levels to be sticky:
 
 ### Options
 
-#### Accordion
-
 Attr | Type | Default | Details
 --- | --- | --- | ---
 data-tink-level | `number` | `1` | Levels allow sticky elements to be stacked.
+
+###Example
+
+A working example can be found in [the Tink documentation](http://tink.digipolis.be/#/docs/directives/stick-to-top#example).
 
 ## Contribution guidelines
 
