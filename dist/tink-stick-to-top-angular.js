@@ -190,6 +190,14 @@
   To do: make it also run on viewport resize
    */
   function calculateValues(){
+
+    //Hot fix for multiple pages other fix needed ! (this is the simple way !)
+    components.forEach(function(value,key){
+      if (!jQuery.contains(document, value.elem.get(0))){
+        components.splice(key, 1);
+    }
+    });
+    
     var lengthC = components.length;
     if($('nav[data-tink-top-nav]') && parseInt($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
       $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
