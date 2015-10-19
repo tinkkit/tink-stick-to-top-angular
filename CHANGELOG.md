@@ -14,6 +14,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.0.5] - 2015-10-19
+
+### Fixed
+- Fixed a bug where the sticky div would flicker when scrolling
+
+
+
 ## [1.0.4] - 2015-10-07
 
 ### Fixed

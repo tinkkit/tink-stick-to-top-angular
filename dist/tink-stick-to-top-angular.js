@@ -11,7 +11,7 @@
     link: function (scope, element, attrs) {
       var level = 1;
       if(attrs.tinkLevel){
-        level = parseInt(attrs.tinkLevel);
+        level = parseFloat(attrs.tinkLevel);
       }
       fixedCont.register(element,level);
     }
@@ -25,30 +25,43 @@
   var stickyClass = 'is-sticky';
   var components=[];
   var stickyList=[];
+  var runResize;
+  function resizeFn() {
+      $timeout.cancel(runResize);
+      runResize = $timeout(function () {
 
-  function resizeFn(){
-      var copy = [];
-      components.forEach(function(v){
-        removeSticky(v);
-        copy.push({elem:v.elem,level:v.level});
-      });
-      components=[];
-      stickyList=[];
-      padding = parseInt($('body').css('padding-top')) || 0;
-      copy.forEach(function(v){
-        v.elem.css('top','auto');
-        v.elem.removeClass(stickyClass);
-        ctrl.register(v.elem,v.level);
-      });
-      calculateValues();
-      update();
+          /*var copy = [];
+          components.forEach(function (v) {
+              removeSticky(v);
+              copy.push({ elem: v.elem, level: v.level });
+          });
+          components = [];
+          stickyList = [];
+          padding = parseFloat($('body').css('padding-top')) || 0;
+          copy.forEach(function (v) {
+              v.elem.css('top', 'auto');
+              v.elem.removeClass(stickyClass);
+              ctrl.register(v.elem, v.level);
+          });*/
+          components.forEach(function (v) {
+              if(v.dummy && stickyList.indexOf(v)>-1){
+                v.top = $(v.dummy).offset().top;
+              }else{
+                v.top = $(v.elem).offset().top;
+              }
+          });
+          calculateValues();
+          update();
+          update();
+
+      }, 250);
     }
 
   /*
   Trigger update function while scrolling
    */
   $timeout(function(){
-    padding = parseInt($('body').css('padding-top')) || 0;
+    padding = parseFloat($('body').css('padding-top')) || 0;
 
     angular.element($window).bind('scroll.sticky', function() {
       update();
@@ -81,7 +94,7 @@
   Loop through this while scrolling
    */
   function update(){
-
+    padding = parseFloat($('body').css('padding-top')) || 0;
     var scrollTop = getScrollTop()+padding;
     //var lengthC = components.length;
 
@@ -93,17 +106,34 @@
     components.forEach(function(value) {
 
       function stickyCal(){
+        var elemHeight = $(value.elem).outerHeight(true);
+        if(stickyList.indexOf(value)>-1){
+          elemHeight = $(value.dummy).outerHeight(true);
+        }
         if(element.hasClass(stickyClass) && stickyList.length > 0){
           var lastIndex = stickyList.length-1;
           var v = stickyList[lastIndex];
-            if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
+            if((v.stop - elemHeight) < scrollTop) {
               var e = (v.stop-scrollTop);
-              var diff = $(v.elem).outerHeight(true) - e;
+              var diff = elemHeight - e;
               var diff2 = (padding+v.extra) - diff;
               $(v.elem).css('top', diff2+'px');
             }else{
+
+            var topHeight = padding;
+            if(value.extra){
+              topHeight+= value.extra;
+            }
+            $(value.elem).css('top', topHeight+'px');
+
               $(v.elem).css('top', v.extra+padding+'px');
             }
+
+          /*var topHeight = padding;
+            if(value.extra){
+              topHeight+= value.extra;
+            }
+            $(value.elem).css('top', topHeight+'px');*/
         }
       }
 
@@ -182,7 +212,7 @@
    */
   function createDummy(elem){
     elem = $(elem);
-    return $( '<div>' ).height(elem.outerHeight(true));
+    return $( elem.clone() );
   }
 
   /*
@@ -190,16 +220,8 @@
   To do: make it also run on viewport resize
    */
   function calculateValues(){
-
-    //Hot fix for multiple pages other fix needed ! (this is the simple way !)
-    components.forEach(function(value,key){
-      if (!jQuery.contains(document, value.elem.get(0))){
-        components.splice(key, 1);
-    }
-    });
-    
     var lengthC = components.length;
-    if($('nav[data-tink-top-nav]') && parseInt($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
+    if($('nav[data-tink-top-nav]') && parseFloat($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
       $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
     }
 
@@ -298,8 +320,8 @@
       //var nakedEl = $(element).get(0);
         components.push({elem: $(element),top:$(element).offset().top,level:level});
         components = components.sort(function(a, b){
-            a = parseInt(a.top);
-            b = parseInt(b.top);
+            a = parseFloat(a.top);
+            b = parseFloat(b.top);
             return a - b;
         });
         calculateValues();
@@ -311,4 +333,4 @@
 
 }]);
 })();
-;
+;;
