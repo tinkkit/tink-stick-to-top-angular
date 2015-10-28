@@ -200,7 +200,7 @@
       if(stickyIndex > -1){
 
         var sticky = stickyList[stickyIndex];
-        // sticky.elem.css('z-index', obj.zindex);
+        sticky.elem.css('z-index', '');
         sticky.dummy.remove();
         $(sticky.elem).removeClass(stickyClass);
         stickyList.splice(stickyIndex,1);
