@@ -26,6 +26,8 @@
   var components=[];
   var stickyList=[];
   var runResize;
+  var minZIndex = 5; // Check $z-layers in Tink core and take the z-index of the element that's BELOW sticky
+
   function resizeFn() {
       $timeout.cancel(runResize);
       runResize = $timeout(function () {
@@ -176,7 +178,7 @@
     if(obj && obj.elem){
       var elem = $(obj.elem);
       if(isSticky(obj)===-1){
-        elem.css('z-index', obj.zindex);
+        elem.css('z-index', obj.zindex + minZIndex);
         var topHeight = padding;
         if(obj.extra){
           topHeight+= obj.extra;
@@ -199,7 +201,7 @@
       if(stickyIndex > -1){
 
         var sticky = stickyList[stickyIndex];
-        sticky.elem.css('z-index',obj.zindex);
+        sticky.elem.css('z-index', obj.zindex + minZIndex);
         sticky.dummy.remove();
         $(sticky.elem).removeClass(stickyClass);
         stickyList.splice(stickyIndex,1);
@@ -221,9 +223,9 @@
    */
   function calculateValues(){
     var lengthC = components.length;
-    if($('nav[data-tink-top-nav]') && parseFloat($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
-      $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
-    }
+    // if($('nav[data-tink-top-nav]') && parseFloat($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
+    //   $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
+    // }
 
     components.forEach(function(value,key){
       var next = key+1 < lengthC;
@@ -333,4 +335,3 @@
 
 }]);
 })();
-;
