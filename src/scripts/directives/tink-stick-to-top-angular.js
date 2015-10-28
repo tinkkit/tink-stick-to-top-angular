@@ -26,38 +26,37 @@
   var components=[];
   var stickyList=[];
   var runResize;
-  var minZIndex = 5; // Check $z-layers in Tink core and take the z-index of the element that's BELOW sticky
 
   function resizeFn() {
-      $timeout.cancel(runResize);
-      runResize = $timeout(function () {
+    $timeout.cancel(runResize);
+    runResize = $timeout(function () {
 
-          /*var copy = [];
-          components.forEach(function (v) {
-              removeSticky(v);
-              copy.push({ elem: v.elem, level: v.level });
-          });
-          components = [];
-          stickyList = [];
-          padding = parseFloat($('body').css('padding-top')) || 0;
-          copy.forEach(function (v) {
-              v.elem.css('top', 'auto');
-              v.elem.removeClass(stickyClass);
-              ctrl.register(v.elem, v.level);
-          });*/
-          components.forEach(function (v) {
-              if(v.dummy && stickyList.indexOf(v)>-1){
-                v.top = $(v.dummy).offset().top;
-              }else{
-                v.top = $(v.elem).offset().top;
-              }
-          });
-          calculateValues();
-          update();
-          update();
+      /*var copy = [];
+      components.forEach(function (v) {
+          removeSticky(v);
+          copy.push({ elem: v.elem, level: v.level });
+      });
+      components = [];
+      stickyList = [];
+      padding = parseFloat($('body').css('padding-top')) || 0;
+      copy.forEach(function (v) {
+          v.elem.css('top', 'auto');
+          v.elem.removeClass(stickyClass);
+          ctrl.register(v.elem, v.level);
+      });*/
+      components.forEach(function (v) {
+          if(v.dummy && stickyList.indexOf(v)>-1){
+            v.top = $(v.dummy).offset().top;
+          }else{
+            v.top = $(v.elem).offset().top;
+          }
+      });
+      calculateValues();
+      update();
+      update();
 
-      }, 250);
-    }
+    }, 250);
+  }
 
   /*
   Trigger update function while scrolling
@@ -86,7 +85,7 @@
     calculateValues();
     update();
 
-  },250);
+  }, 250);
 
   ctrl.update = function(){
     resizeFn.call();
@@ -170,7 +169,7 @@
 
 
 
- var highLevel = 0;
+  var highLevel = 0;
   /*
   Make element sticky
    */
@@ -178,14 +177,14 @@
     if(obj && obj.elem){
       var elem = $(obj.elem);
       if(isSticky(obj)===-1){
-        elem.css('z-index', obj.zindex + minZIndex);
+        // elem.css('z-index', obj.zindex);
         var topHeight = padding;
         if(obj.extra){
           topHeight+= obj.extra;
         }
         obj.dummy = createDummy(elem);
         elem.after(obj.dummy);
-        makeSticky(elem,topHeight);
+        makeSticky(elem,topHeight,obj.level);
         stickyList.push(obj);
       }
     }
@@ -201,7 +200,7 @@
       if(stickyIndex > -1){
 
         var sticky = stickyList[stickyIndex];
-        sticky.elem.css('z-index', obj.zindex + minZIndex);
+        // sticky.elem.css('z-index', obj.zindex);
         sticky.dummy.remove();
         $(sticky.elem).removeClass(stickyClass);
         stickyList.splice(stickyIndex,1);
@@ -273,7 +272,6 @@
         value.trigger = 0;
       }
     });
-
   }
 
   /*
@@ -305,14 +303,14 @@
   /*
   Help function make sticky
    */
-  function makeSticky(elem,top){
+  function makeSticky(elem,top,level){
     elem = $(elem);
     elem.addClass(stickyClass);
-    elem.css('top',top+'px');
+    var maxZIndex = elem.css('z-index'); // Read from Tink core
+    elem.css('z-index', maxZIndex - (level - 1)); // Higher level means lower z-index
+    // console.log(elem.css('z-index'));
+    elem.css('top', top+'px');
   }
-
-
-
 
   ctrl.register= function(element,level){
     $timeout(function(){
