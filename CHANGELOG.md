@@ -14,6 +14,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.0.6] - 2015-10-28
+
+### Fixed
+- Made the stick to top component work with the new way of handling z-indexes in the Tink core
+
+
+
 ## [1.0.5] - 2015-10-19
 
 ### Fixed
