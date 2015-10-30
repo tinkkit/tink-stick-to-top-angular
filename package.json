@@ -1,7 +1,7 @@
 {
   "name": "tink-stick-to-top-angular",
   "description": "Tink stick to top Angular directive",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "repository": {
     "type": "git",
     "url": "git@github.com:tinkkit/tink-stick-to-top-angular.git"
