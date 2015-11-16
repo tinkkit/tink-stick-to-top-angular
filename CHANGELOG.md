@@ -14,6 +14,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.0.7] - 2015-11-16
+
+### Fixed
+- Browser has different precision, calculation was wrong because of that.
+
+
 ## [1.0.6] - 2015-10-30
 
 ### Fixed
