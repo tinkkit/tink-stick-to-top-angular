@@ -11,7 +11,7 @@
     link: function (scope, element, attrs) {
       var level = 1;
       if(attrs.tinkLevel){
-        level = parseInt(attrs.tinkLevel);
+        level = parseFloat(attrs.tinkLevel);
       }
       fixedCont.register(element,level);
     }
@@ -25,30 +25,44 @@
   var stickyClass = 'is-sticky';
   var components=[];
   var stickyList=[];
+  var runResize;
 
-  function resizeFn(){
-      var copy = [];
-      components.forEach(function(v){
-        removeSticky(v);
-        copy.push({elem:v.elem,level:v.level});
+  function resizeFn() {
+    $timeout.cancel(runResize);
+    runResize = $timeout(function () {
+
+      /*var copy = [];
+      components.forEach(function (v) {
+          removeSticky(v);
+          copy.push({ elem: v.elem, level: v.level });
       });
-      components=[];
-      stickyList=[];
-      padding = parseInt($('body').css('padding-top')) || 0;
-      copy.forEach(function(v){
-        v.elem.css('top','auto');
-        v.elem.removeClass(stickyClass);
-        ctrl.register(v.elem,v.level);
+      components = [];
+      stickyList = [];
+      padding = parseFloat($('body').css('padding-top')) || 0;
+      copy.forEach(function (v) {
+          v.elem.css('top', 'auto');
+          v.elem.removeClass(stickyClass);
+          ctrl.register(v.elem, v.level);
+      });*/
+      components.forEach(function (v) {
+          if(v.dummy && stickyList.indexOf(v)>-1){
+            v.top = $(v.dummy).offset().top;
+          }else{
+            v.top = $(v.elem).offset().top;
+          }
       });
       calculateValues();
       update();
-    }
+      update();
+
+    }, 250);
+  }
 
   /*
   Trigger update function while scrolling
    */
   $timeout(function(){
-    padding = parseInt($('body').css('padding-top')) || 0;
+    padding = parseFloat($('body').css('padding-top')) || 0;
 
     angular.element($window).bind('scroll.sticky', function() {
       update();
@@ -71,7 +85,7 @@
     calculateValues();
     update();
 
-  },250);
+  }, 250);
 
   ctrl.update = function(){
     resizeFn.call();
@@ -81,7 +95,7 @@
   Loop through this while scrolling
    */
   function update(){
-
+    padding = parseFloat($('body').css('padding-top')) || 0;
     var scrollTop = getScrollTop()+padding;
     //var lengthC = components.length;
 
@@ -93,17 +107,34 @@
     components.forEach(function(value) {
 
       function stickyCal(){
+        var elemHeight = $(value.elem).outerHeight(true);
+        if(stickyList.indexOf(value)>-1){
+          elemHeight = $(value.dummy).outerHeight(true);
+        }
         if(element.hasClass(stickyClass) && stickyList.length > 0){
           var lastIndex = stickyList.length-1;
           var v = stickyList[lastIndex];
-            if((v.stop - v.elem.outerHeight(true)) < scrollTop) {
+            if((v.stop - elemHeight) < scrollTop) {
               var e = (v.stop-scrollTop);
-              var diff = $(v.elem).outerHeight(true) - e;
+              var diff = elemHeight - e;
               var diff2 = (padding+v.extra) - diff;
               $(v.elem).css('top', diff2+'px');
             }else{
+
+            var topHeight = padding;
+            if(value.extra){
+              topHeight+= value.extra;
+            }
+            $(value.elem).css('top', topHeight+'px');
+
               $(v.elem).css('top', v.extra+padding+'px');
             }
+
+          /*var topHeight = padding;
+            if(value.extra){
+              topHeight+= value.extra;
+            }
+            $(value.elem).css('top', topHeight+'px');*/
         }
       }
 
@@ -138,7 +169,7 @@
 
 
 
- var highLevel = 0;
+  var highLevel = 0;
   /*
   Make element sticky
    */
@@ -146,14 +177,14 @@
     if(obj && obj.elem){
       var elem = $(obj.elem);
       if(isSticky(obj)===-1){
-        elem.css('z-index', obj.zindex);
+        // elem.css('z-index', obj.zindex);
         var topHeight = padding;
         if(obj.extra){
           topHeight+= obj.extra;
         }
         obj.dummy = createDummy(elem);
         elem.after(obj.dummy);
-        makeSticky(elem,topHeight);
+        makeSticky(elem,topHeight,obj.level);
         stickyList.push(obj);
       }
     }
@@ -169,7 +200,7 @@
       if(stickyIndex > -1){
 
         var sticky = stickyList[stickyIndex];
-        sticky.elem.css('z-index',obj.zindex);
+        sticky.elem.css('z-index', '');
         sticky.dummy.remove();
         $(sticky.elem).removeClass(stickyClass);
         stickyList.splice(stickyIndex,1);
@@ -182,7 +213,7 @@
    */
   function createDummy(elem){
     elem = $(elem);
-    return $( '<div>' ).height(elem.outerHeight(true));
+    return $( elem.clone() );
   }
 
   /*
@@ -191,9 +222,9 @@
    */
   function calculateValues(){
     var lengthC = components.length;
-    if($('nav[data-tink-top-nav]') && parseInt($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
-      $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
-    }
+    // if($('nav[data-tink-top-nav]') && parseFloat($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
+    //   $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
+    // }
 
     components.forEach(function(value,key){
       var next = key+1 < lengthC;
@@ -241,7 +272,6 @@
         value.trigger = 0;
       }
     });
-
   }
 
   /*
@@ -273,14 +303,14 @@
   /*
   Help function make sticky
    */
-  function makeSticky(elem,top){
+  function makeSticky(elem,top,level){
     elem = $(elem);
     elem.addClass(stickyClass);
-    elem.css('top',top+'px');
+    var maxZIndex = elem.css('z-index'); // Read from Tink core
+    elem.css('z-index', maxZIndex - (level - 1)); // Higher level means lower z-index
+    // console.log(elem.css('z-index'));
+    elem.css('top', top+'px');
   }
-
-
-
 
   ctrl.register= function(element,level){
     $timeout(function(){
@@ -290,8 +320,8 @@
       //var nakedEl = $(element).get(0);
         components.push({elem: $(element),top:$(element).offset().top,level:level});
         components = components.sort(function(a, b){
-            a = parseInt(a.top);
-            b = parseInt(b.top);
+            a = parseFloat(a.top);
+            b = parseFloat(b.top);
             return a - b;
         });
         calculateValues();
