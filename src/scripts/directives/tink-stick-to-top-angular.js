@@ -158,7 +158,7 @@
        */
        stickyCal();
 
-      if(scrollTop > value.top && (scrollTop < value.stop || value.stop === undefined)){
+      if(scrollTop > value.top.toFixed(2) && (scrollTop < value.stop || value.stop === undefined)){
         addSticky(value);
       }else{
         removeSticky(value);
