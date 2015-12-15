@@ -14,6 +14,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.0.8] - 2015-12-15
+
+### Changed
+- Watch the on destroy of the directive to unregister the window events.
+
 ## [1.0.7] - 2015-11-16
 
 ### Fixed
