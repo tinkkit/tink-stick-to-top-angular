@@ -14,6 +14,11 @@
         level = parseFloat(attrs.tinkLevel);
       }
       fixedCont.register(element,level);
+
+      scope.$on('$destroy', function handleDestroy() {
+          fixedCont.unRegister(element, level);
+      });
+
     }
   };
 
@@ -30,20 +35,6 @@
   function resizeFn() {
     $timeout.cancel(runResize);
     runResize = $timeout(function () {
-
-      /*var copy = [];
-      components.forEach(function (v) {
-          removeSticky(v);
-          copy.push({ elem: v.elem, level: v.level });
-      });
-      components = [];
-      stickyList = [];
-      padding = parseFloat($('body').css('padding-top')) || 0;
-      copy.forEach(function (v) {
-          v.elem.css('top', 'auto');
-          v.elem.removeClass(stickyClass);
-          ctrl.register(v.elem, v.level);
-      });*/
       components.forEach(function (v) {
           if(v.dummy && stickyList.indexOf(v)>-1){
             v.top = $(v.dummy).offset().top;
@@ -58,34 +49,43 @@
     }, 250);
   }
 
-  /*
+ 
+  function bindEvents(){
+
+     /*
   Trigger update function while scrolling
    */
-  $timeout(function(){
-    padding = parseFloat($('body').css('padding-top')) || 0;
+    $timeout(function(){
+      padding = parseFloat($('body').css('padding-top')) || 0;
 
-    angular.element($window).bind('scroll.sticky', function() {
+      angular.element($window).bind('scroll.sticky', function() {
+        update();
+      });
+
+      angular.element($window).bind('touchstart.sticky', function() {
+        update();
+      });
+
+      angular.element($window).bind('touchmove.sticky', function() {
+        update();
+      });
+
+      angular.element($window).bind('touchend.sticky', function() {
+        update();
+      });
+
+      angular.element($window).bind('resize.sticky', resizeFn);
+
+      calculateValues();
       update();
-    });
 
-    angular.element($window).bind('touchstart.sticky', function() {
-      update();
-    });
+    }, 250);
 
-    angular.element($window).bind('touchmove.sticky', function() {
-      update();
-    });
-
-    angular.element($window).bind('touchend.sticky', function() {
-      update();
-    });
-
-    angular.element($window).bind('resize.sticky', resizeFn);
-
-    calculateValues();
-    update();
-
-  }, 250);
+  }
+  bindEvents();
+  function unbindEvents(){
+    angular.element($window).unbind('scroll.sticky touchstart.sticky touchmove.sticky touchend.sticky resize.sticky');
+  }
 
   ctrl.update = function(){
     resizeFn.call();
@@ -222,10 +222,6 @@
    */
   function calculateValues(){
     var lengthC = components.length;
-    // if($('nav[data-tink-top-nav]') && parseFloat($('nav[data-tink-top-nav]').css('z-index')) <= highLevel){
-    //   $('nav[data-tink-top-nav]').css('z-index',highLevel+2);
-    // }
-
     components.forEach(function(value,key){
       var next = key+1 < lengthC;
       value.extra = 0;
@@ -312,6 +308,18 @@
     elem.css('top', top+'px');
   }
 
+  ctrl.unRegister = function (element, level) {
+      for (var i = 0; i < components.length; i++) {
+          if (components[i].elem.get(0) === element.get(0)) {
+              components.splice(i, 1);
+              i = 99;
+          }
+      }
+      if(components.length === 0){
+        unbindEvents();
+      }
+  }
+
   ctrl.register= function(element,level){
     $timeout(function(){
       if(highLevel < level){
@@ -324,6 +332,9 @@
             b = parseFloat(b.top);
             return a - b;
         });
+        if(components.length === 1){
+          bindEvents();
+        }
         calculateValues();
         update();
     },250);

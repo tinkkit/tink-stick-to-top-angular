@@ -1,6 +1,6 @@
 {
   "name": "tink-stick-to-top-angular",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": [
     "dist/tink-stick-to-top-angular.js"
   ],
