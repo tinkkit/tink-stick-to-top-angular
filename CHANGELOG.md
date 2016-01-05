@@ -13,6 +13,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Security
 -->
+## [1.0.9] - 2016-01-05
+
+### Changed
+- When scrolling the dummy object is opacity 0.
 
 ## [1.0.8] - 2015-12-15
 
