@@ -213,7 +213,9 @@
    */
   function createDummy(elem){
     elem = $(elem);
-    return $( elem.clone() );
+    elem = elem.clone();
+    elem.css('opacity','0');
+    return $(elem );
   }
 
   /*
