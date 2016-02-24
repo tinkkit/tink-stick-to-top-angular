@@ -13,6 +13,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Security
 -->
+## [1.0.10] - 2016-02-24
+
+### Changed
+- When zooming of the browser the precision, calculation was wrong because of that.
+
 ## [1.0.9] - 2016-01-05
 
 ### Changed
