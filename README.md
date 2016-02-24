@@ -1,6 +1,6 @@
 # Tink stick to top Angular directive
 
-v1.0.9
+v1.0.10
 
 ## What is this repository for?
 
